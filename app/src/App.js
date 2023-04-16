@@ -10,16 +10,18 @@ import GlobalStyle from "./globals/Style";
 function App() {
   const [users, setUsers] = useState([]);
   const [systemMessage, setSystemMessage] = useState();
+  const [edit, setEdit] = useState(false)
+  const [userEdit, setUserEdit] = useState()
 
   const createMessage = (message, type) => {
-      setSystemMessage({
-        message,
-        type
-      })
+    setSystemMessage({
+      message,
+      type
+    })
 
-      setTimeout(() => {
-        setSystemMessage("")
-      }, 2000)
+    setTimeout(() => {
+      setSystemMessage("")
+    }, 2000)
   }
 
 
@@ -27,6 +29,7 @@ function App() {
     try {
       const usersInfo = await axios.get("http://localhost:3030")
       setUsers(usersInfo.data)
+      setEdit(false)
     } catch (err) {
       console.log("ERRO: " + err)
     }
@@ -43,12 +46,34 @@ function App() {
       getUsers()
       createMessage("Usuario criado com sucesso", "success")
     } catch (err) {
-        console.log("ERRO: " + err)
+      console.log("ERRO: " + err)
       createMessage("Desculpe não conseguimos criar um novo usuario", "error")
 
     }
-
   }
+
+  const editOn = (user) => {
+    setUserEdit(user)
+    setEdit(true)
+  }
+
+
+  const editUser = async ({name, lastname, nota, id}) => {
+    try {
+      await axios.put(`http://localhost:3030/${id}`, {
+        name,
+        lastname,
+        nota
+      })
+      createMessage("Usuario editado com sucesso", "success")
+      getUsers()
+    } catch (err) {
+      console.log("ERRO: " + err)
+      createMessage("Erro ao editar", "error")
+    }
+  }
+
+
 
   const deletUser = async (id) => {
     try {
@@ -63,12 +88,13 @@ function App() {
   useEffect(() => getUsers, [])
 
 
+
   return (
     <>
       <GlobalStyle />
-      <Register createUser={addUsers} />
+      <Register createUser={addUsers} editUser={editUser} edit={edit} userEdit={userEdit} />
       {systemMessage && <Message message={systemMessage.message} type={systemMessage.type} />}
-      <UserList users={users} deletUser={deletUser} />
+      <UserList users={users} deletUser={deletUser} editUser={editOn} />
     </>
   );
 }

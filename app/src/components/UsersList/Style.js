@@ -1,43 +1,42 @@
 import styled from "styled-components";
 
-const UserListContainer = styled.ul`
-    display: flex;
-    flex-direction: column;
+const UserListContainer = styled.table`
     width: 90%;
     margin: 1em auto;
-    list-style-type: none;
+    border: 0;
 
-    li{
-        display: flex;
-        margin: 1em 0;
-        padding: .5em;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        background: ${props => props.theme.background};
-        
-    }
-
-    li h2{
-        width: 20%;
-        margin: 0 .5em;
+    th{
+        font-weight: normal;
+        font-size: 16px;
         color: ${props => props.theme.Contrast};
-        
+        height: 50px;
     }
 
-    li p{
-        font-size: 18px;
-        color: ${props => props.theme.TextColor}
+    tbody{
+        margin: 2em 0;
+    }
+    td{
+        color: ${props => props.theme.TextColor};
+        text-align: center;
     }
 
-
-    @media  (max-width: 650px){
-        li{
-            font-size: 14px;
-        }
-        
+    button{
+        background: none;
+        //border: none;
     }
     
+    @media (min-width: 420px){
+        th{
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        td{
+            font-size: 18px;
+        }
+
+
+    }
 
 `
 

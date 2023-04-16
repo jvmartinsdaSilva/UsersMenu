@@ -1,4 +1,3 @@
-import { json } from "express"
 import { db } from "../db.js"
 
 export const getUsers = (req, res) => {
@@ -36,4 +35,21 @@ export const deleteUser = (req, res) => {
 
         return res.json("Usuario removido com sucesso")
     })
+}
+
+export const editUser = (req, res) => {
+    const edit = "UPDATE users SET `name` = ?, `lastname` = ? , `nota` = ? WHERE `id` = ? "
+
+    const values = [
+        req.body.name,
+        req.body.lastname,
+        req.body.nota
+    ]
+
+    db.query(edit, [...values, req.params.id], (err) => {
+        if(err) return res.json("Erro ao editar")
+
+        return res.json("Usuario editado com sucesso!")
+    } )
+
 }

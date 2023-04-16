@@ -1,22 +1,32 @@
+import {ButtonDelete, ButtonEdit} from "../Buttons/Buttons"
+
 import UserListContainer from "./Style"
 
-const UserList = ({ users, deletUser }) => {
+const UserList = ({ users, deletUser, editUser }) => {
 
-    const removeUser = (userID) => {
-        deletUser(userID)
-    }
 
     return (
         <UserListContainer>
-            {users?.map(user => (
-                <li key={user.id}>
-                    <h2>{user.name}</h2>
-                    <h2>{user.lastname}</h2>
-                    <p>{user.nota}</p>
-                    <button>Edit</button>
-                    <button onClick={() => removeUser(user.id)}>Exc</button>
-                </li>
-            ))}
+            <thead>
+                <tr>
+                    <th>NOME</th>
+                    <th>SOBRENOME</th>
+                    <th>NOTA</th>
+                    <th>EDI</th>
+                    <th>EXC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users?.map((user) => (
+                    <tr key={user.id}>
+                        <td>{user.name}</td>
+                        <td>{user.lastname}</td>
+                        <td>{user.nota}</td>
+                        <td><ButtonEdit clickEvent={() => editUser(user)}/></td>
+                        <td><ButtonDelete clickEvent={() => deletUser(user.id)} userId={user.id}/></td>
+                    </tr>
+                ))}
+            </tbody>
 
         </UserListContainer>
     )
