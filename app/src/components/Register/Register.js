@@ -2,30 +2,22 @@ import { useEffect, useState } from "react"
 import RegisterContainer from "./Style"
 
 const Register = ({ createUser, editUser, edit, userEdit }) => {
-    const [name, setName] = useState(edit ? userEdit.name : "")
+    const [name, setName] = useState('')
     const [lastname, setLastName] = useState('')
     const [nota, setNota] = useState('')
 
     const getUserInfos = (e) => {
         e.preventDefault()
-
-        if(edit){
-            const infos = {
-                name,
-                lastname,
-                nota,
-                id: userEdit.id
-            }
-            editUser(infos)
-        } else {
-            const infos = {
-                name,
-                lastname,
-                nota
-            }
-            createUser(infos)
+        
+        const infos = {
+            name,
+            lastname,
+            nota
         }
-     
+
+        if(edit) editUser({...infos, id: userEdit.id})
+        else createUser(infos)
+
         clearFields()
     }
 
@@ -46,7 +38,13 @@ const Register = ({ createUser, editUser, edit, userEdit }) => {
 
     return (
         <RegisterContainer onSubmit={getUserInfos}>
-            <h2>{edit ? `Editando usuario:${userEdit.name} ${userEdit.lastname}` : "Novo usuario"}</h2>
+            {edit ? (
+                <h2>
+                    Editando usuario:  <span>{userEdit.name} {userEdit.lastname}</span>
+                </h2>
+            ) : (
+                <h2>Novo usuario</h2>
+            )}
             <label htmlFor="userName">
                 <h3>Primeiro nome:</h3>
                 <input

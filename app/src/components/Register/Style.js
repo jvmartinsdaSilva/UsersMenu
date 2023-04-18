@@ -26,6 +26,11 @@ const RegisterContainer = styled.form`
         font-size: 20px;
     }
 
+    h2 > span{
+        text-decoration: underline;
+        font-weight: bolder;
+    }
+
     
     label{
         width: 100%;
